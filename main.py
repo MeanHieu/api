@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse
-from app.face_recognition import process_image  # Import đúng đường dẫn
+from app.face_recognition import process_image  
 from io import BytesIO
 from PIL import Image
 import numpy as np
@@ -13,11 +13,11 @@ async def root():
 
 @app.post("/upload/")
 async def upload_image(file: UploadFile = File(...)):
-    img = Image.open(BytesIO(await file.read()))  # Đọc ảnh từ file tải lên
-    result_image, info = process_image(np.array(img))  # Gọi hàm process_image
+    img = Image.open(BytesIO(await file.read()))  
+    result_image, info = process_image(np.array(img))  
 
-    result_image_pil = Image.fromarray(result_image)  # Chuyển kết quả về định dạng PIL
-    result_image_pil.save("app/static/result_image.jpg")  # Lưu ảnh kết quả
+    result_image_pil = Image.fromarray(result_image)  
+    result_image_pil.save("app/static/result_image.jpg")  
 
     # Trả về HTML hiển thị thông tin và hình ảnh
     return HTMLResponse(content=f"""
